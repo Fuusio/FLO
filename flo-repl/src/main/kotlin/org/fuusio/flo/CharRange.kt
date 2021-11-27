@@ -1,5 +1,7 @@
 package org.fuusio.flo
 
+import org.fuusio.flo.type.Nil
+
 data class CharRange(
    val start: Char,
    var end: Char = start

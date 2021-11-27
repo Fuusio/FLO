@@ -2,7 +2,6 @@ package org.fuusio.flo.operator
 
 import org.fuusio.flo.Ctx
 import org.fuusio.flo.Interceptor
-import org.fuusio.flo.Nil
 import org.fuusio.flo.Node
 
 object Quote : Node, Interceptor {

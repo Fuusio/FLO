@@ -1,9 +1,9 @@
 package org.fuusio.flo.parser
 
 import org.fuusio.flo.AbstractTest
-import org.fuusio.flo.Key
-import org.fuusio.flo.Nil
-import org.fuusio.flo.Symbol
+import org.fuusio.flo.type.Key
+import org.fuusio.flo.type.Nil
+import org.fuusio.flo.type.Symbol
 import org.fuusio.flo.operator.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -27,16 +27,14 @@ internal class ParserTest : AbstractTest() {
         @Test
         @DisplayName("With given string, Then should return correct nodes")
         fun withStrings() {
+            parseString("nil .", Nil::class, Nil::class)
+            parseString("123 123L 123.0f 123.0", Int::class, Long::class, Float::class, Double::class)
+            parseString("'A'", Char::class)
+            parseString("\"foo\"", String::class)
             parseString("42 = foo", Int::class, Assignment::class, Symbol::class)
             parseString("-42 -- -", Int::class, Decrement::class, Subtraction::class)
             parseString("++ +", Increment::class, Addition::class)
-            parseString("nil .", Nil::class, Nil::class)
-            parseString("123", Int::class)
-            parseString("123L", Long::class)
-            parseString("123L 123.0f 123.0", Long::class, Float::class, Double::class)
-            parseString("'A'", Char::class)
-            parseString("\"foo\"", String::class)
-            parseString(" foo   :foo _bar _FooBar123 ", Symbol::class, Key::class, Symbol::class, Symbol::class)
+            parseString(" foo   :foo :_foo _bar _FooBar123 ", Symbol::class, Key::class, Key::class, Symbol::class, Symbol::class)
             parseString(" foo   true false nil .", Symbol::class, Boolean::class, Boolean::class, Nil::class, Nil::class)
             parseString(" ( foo   :foo ) ", FunctionBegin::class, Symbol::class, Key::class, FunctionEnd::class)
             parseString("+ * / % - -2", Addition::class, Multiplication::class, Division::class, Modulus::class, Subtraction::class, Int::class)

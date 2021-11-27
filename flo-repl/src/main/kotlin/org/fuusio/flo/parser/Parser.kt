@@ -1,8 +1,8 @@
 package org.fuusio.flo.parser
 
-import org.fuusio.flo.Key
-import org.fuusio.flo.Nil
-import org.fuusio.flo.Symbol
+import org.fuusio.flo.type.Key
+import org.fuusio.flo.type.Nil
+import org.fuusio.flo.type.Symbol
 import org.fuusio.flo.operator.*
 import java.io.BufferedReader
 import java.io.StringReader

@@ -1,6 +1,7 @@
 package org.fuusio.flo
 
 import org.fuusio.flo.extension.execute
+import org.fuusio.flo.type.Nil
 
 object Executor {
 

@@ -1,6 +1,6 @@
 package org.fuusio.flo.operator
 
-import org.fuusio.flo.BlockDefinition
+import org.fuusio.flo.block.BlockDefinition
 import org.fuusio.flo.Ctx
 
 object BlockBegin : UnaryOperator() {

@@ -1,11 +1,13 @@
 package org.fuusio.flo.repl
 
 import org.fuusio.flo.*
-import org.fuusio.flo.Array
-import org.fuusio.flo.Function
-import org.fuusio.flo.Map
+import org.fuusio.flo.block.Block
+import org.fuusio.flo.type.Array
+import org.fuusio.flo.function.Function
+import org.fuusio.flo.type.Map
 import org.fuusio.flo.operator.Addition
-import org.fuusio.flo.operator.GreaterThanOrEqual
+import org.fuusio.flo.type.Nil
+import org.fuusio.flo.type.Symbol
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 
@@ -24,7 +26,9 @@ internal class ReplTest : AbstractTest() {
         @Test
         @DisplayName("With given expression, Then should evaluate to correct result")
         fun withStrings() {
+            val startTime = System.currentTimeMillis()
             eval("{ \"Hello World!\"}", "Hello World!")
+            eval("'a'", 'a')
             eval("!true", false)
             eval(" ! false", true)
             eval("true", true)
@@ -32,6 +36,9 @@ internal class ReplTest : AbstractTest() {
             eval(".", Nil)
             eval("nil", Nil)
             eval("123", 123)
+            eval("123L", 123L)
+            eval("123.0", 123.0)
+            eval("123.0f", 123f)
             eval("1 + 2", 3)
             eval("43 % 2", 1)
             eval("1 + 2 * 3", 9)
@@ -48,6 +55,22 @@ internal class ReplTest : AbstractTest() {
             eval("42 = foo + 58 . foo", 42)
             eval("0 = foo . 42 {++foo} . foo", 42)
             eval("0 = foo . 42 {'foo++} . foo", 42)
+            eval("'foo = 42 . foo", 42)
+            eval("'foo = Nil . foo", Nil)
+            eval("0 = foo . 1..4 {++foo} . foo", 4)
+            eval("'foo = 0 . 1..4 {++foo} . foo", 4)
+            eval("2 > 1 {\"true\"} ! {\"false\"}", "true")
+            eval("2 >= 2 {\"true\"} ! {\"false\"}", "true")
+            eval("(x + y) = foo . ['x : 2 'y : 40]          foo", 42)
+            eval("(x + y) = foo . foo", Function(arrayOf(Symbol("x"), Addition, Symbol("y"))))
+            eval("['a' 'b' 'c'] 1", 'b')
+            eval("[0 : 'a'  1 : 'b' 2 : 'c'] 2", 'c')
+            eval("[0 : 'a'  1 : 'b' 2 : 'c'] 0L", Nil)
+            eval("[0L : 'a'  1 : 'b' 2 : 'c'] 0L", 'a')
+// TODO     eval("foo = 42 . foo", 42)
+// TODO     eval("'foo = (x + y) . ['x : 2 'y : 40]foo", 42)
+            val endTime = System.currentTimeMillis()
+            println("Duration: ${endTime - startTime}")
         }
 
         private fun eval(expression: String, expectedResult: Any) {

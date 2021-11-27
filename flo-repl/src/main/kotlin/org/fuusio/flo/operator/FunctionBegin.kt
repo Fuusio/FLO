@@ -1,8 +1,8 @@
 package org.fuusio.flo.operator
 
 import org.fuusio.flo.Ctx
-import org.fuusio.flo.FunctionDefinition
-import org.fuusio.flo.Map
+import org.fuusio.flo.function.FunctionDefinition
+import org.fuusio.flo.type.Map
 
 object FunctionBegin : UnaryOperator() {
 

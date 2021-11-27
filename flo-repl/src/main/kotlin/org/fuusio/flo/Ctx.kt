@@ -1,6 +1,7 @@
 package org.fuusio.flo
 
 import org.fuusio.api.util.Stack
+import org.fuusio.flo.type.Nil
 
 open class Ctx(
     val vm: FloVM,
@@ -21,7 +22,7 @@ open class Ctx(
         when (val value = values[key]) {
             null -> {
                 when (parent) {
-                    null -> throw IllegalStateException() // TODO : Appropriate exception
+                    null -> Nil // throw IllegalStateException() // TODO : Appropriate exception
                     else -> parent.get(key)
                 }
             }

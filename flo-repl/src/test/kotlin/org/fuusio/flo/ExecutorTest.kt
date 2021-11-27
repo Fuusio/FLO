@@ -1,6 +1,7 @@
 package org.fuusio.flo
 
 import org.fuusio.flo.operator.Addition
+import org.fuusio.flo.type.Nil
 import org.junit.jupiter.api.*
 
 @DisplayName("Given Executor")

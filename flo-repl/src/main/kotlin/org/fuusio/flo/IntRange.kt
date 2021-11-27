@@ -1,5 +1,7 @@
 package org.fuusio.flo
 
+import org.fuusio.flo.type.Nil
+
 data class IntRange(
    val start: Int,
    val end: Int = start

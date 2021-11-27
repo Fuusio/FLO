@@ -1,10 +1,14 @@
 package org.fuusio.flo.extension
 
-import org.fuusio.flo.Ctx
+import org.fuusio.flo.*
+import org.fuusio.flo.type.Array
 import org.fuusio.flo.IntRange
+import org.fuusio.flo.type.Map
 import org.fuusio.flo.operator.ArithmeticOperator
+import org.fuusio.flo.operator.Assignment
 import org.fuusio.flo.operator.ComparisonOperator
 import org.fuusio.flo.operator.Range
+import org.fuusio.flo.type.Symbol
 
 fun Byte.execute(ctx: Ctx, input: Any): Any =
     when (input) {
@@ -13,5 +17,11 @@ fun Byte.execute(ctx: Ctx, input: Any): Any =
         is Range -> {
             IntRange(ctx.pop() as Int, toInt())
         }
+        is Symbol -> {
+            ctx.push(this)
+            input.execute(ctx, Assignment)
+        }
+        is Array -> input[this.toInt()]
+        is Map -> input[this]
         else -> this
     }

@@ -2,7 +2,7 @@ package org.fuusio.flo.operator
 
 import org.fuusio.flo.Ctx
 import org.fuusio.flo.Node
-import org.fuusio.flo.Symbol
+import org.fuusio.flo.type.Symbol
 
 object Increment: Node {
 
