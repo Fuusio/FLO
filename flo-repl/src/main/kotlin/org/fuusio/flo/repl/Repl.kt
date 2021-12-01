@@ -18,7 +18,6 @@ object Repl {
             node = parser.readNext()
 
             if (node != null) {
-
                 value = Executor.execute(ctx, node, value)
             }
         } while (node != null)

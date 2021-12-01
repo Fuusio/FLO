@@ -5,7 +5,8 @@ import org.fuusio.flo.Interceptor
 import org.fuusio.flo.Node
 import org.fuusio.flo.operator.BlockEnd
 import org.fuusio.flo.operator.Quote
-import org.fuusio.flo.operator.Range
+import org.fuusio.flo.CharRange
+import org.fuusio.flo.IntRange
 import org.fuusio.flo.type.Nil
 
 class BlockDefinition : Node, Interceptor {
@@ -27,7 +28,11 @@ class BlockDefinition : Node, Interceptor {
                         ctx.pop()
                         block.execute(ctx, value)
                     }
-                    is Range -> {
+                    is CharRange -> {
+                        ctx.pop()
+                        block.execute(ctx, value)
+                    }
+                    is IntRange -> {
                         ctx.pop()
                         block.execute(ctx, value)
                     }

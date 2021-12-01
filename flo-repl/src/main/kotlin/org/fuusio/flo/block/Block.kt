@@ -14,7 +14,7 @@ data class Block(
         val value = when (input) {
             is Interceptor -> input.intercept(ctx, this)
             is Nil -> execute(blockCtx)
-            is Number -> executeInLoop(blockCtx, input.toLong())
+            // is Number -> executeInLoop(blockCtx, input.toLong())
             is Boolean -> if (input) execute(blockCtx) else input
             is CharRange -> executeInCharRange(blockCtx, input)
             is IntRange -> executeInIntRange(blockCtx, input)

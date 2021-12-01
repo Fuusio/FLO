@@ -27,7 +27,6 @@ class Parser(private var reader: BufferedReader) {
                     '(' -> FunctionBegin
                     ')' -> FunctionEnd
                     '/' -> Division
-                    '.' -> Nil
                     '*' -> Multiplication
                     '%' -> Modulus
                     '=' -> readAssignmentOrEqual()
@@ -36,6 +35,7 @@ class Parser(private var reader: BufferedReader) {
                     '+' -> readAdditionOrIncrement()
                     '<' -> readLesserThan()
                     ':' -> readKeyOrMapper()
+                    '.' -> readNilOrRange()
                     '!' -> readNotOrNotEqual()
                     '"' -> readString()
                     '-' -> readSubtractionOrNumberOrDecrement()
@@ -92,6 +92,22 @@ class Parser(private var reader: BufferedReader) {
         }
         return LesserThan
     }
+
+    private fun readNilOrRange(): Any {
+        if (line.hasNext()) {
+            val char = line.peek()
+            return when {
+                char == '.' -> {
+                    line.next()
+                    Range
+                }
+                char.isWhitespace() -> Nil
+                else -> Nil
+            }
+        }
+        return Nil
+    }
+
     private fun readKey(): Any {
         val name = StringBuilder()
         while (line.hasNext()) {
@@ -150,8 +166,14 @@ class Parser(private var reader: BufferedReader) {
                 line.next()
             } else if (char == '.' && !isFloatingPointRead) {
                 isFloatingPointRead = true
-                digits.append(char)
                 line.next()
+
+                if (line.hasNext() && line.peek().isDigit()) {
+                    digits.append(char)
+                } else {
+                    line.previous()
+                    return if (isFloatingPointRead) digits.toString().toDouble() else digits.toString().toInt()
+                }
             } else if (char == 'L') {
                 line.next()
                 return digits.toString().toLong()
